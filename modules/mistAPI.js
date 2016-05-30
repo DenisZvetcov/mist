@@ -2,13 +2,14 @@
 @module MistAPI
 */
 
+const electron = require('electron');
 const packageJson = require('./../package.json');
 const config = require('./../config');
-const remote = require('remote');
+const remote = electron.remote;
 
 module.exports = function(isWallet) {
 
-    const ipc = require('electron').ipcRenderer;
+    const ipc = electron.ipcRenderer;
 
     var queue = [];
     var prefix = 'entry_';
@@ -71,9 +72,11 @@ module.exports = function(isWallet) {
     
     var mist = {
         callbacks: {},
+        dirname: remote.getGlobal('dirname'),
         version: packageJson.version,
         mode: remote.getGlobal('mode'),
         license: packageJson.license,
+        shell: remote.shell,
         platform: process.platform,
         requestAccount:  function(callback){
             if(callback) {
@@ -91,7 +94,7 @@ module.exports = function(isWallet) {
                     sound.bip.play();
                 // if mist
                 else
-                    ipc.sendToHost('mistAPI_sound', 'bip');
+                    ipc.sendToHost('mistAPI_sound', sound.bip.src);
             }
         },
         menu: {

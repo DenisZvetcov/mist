@@ -1,18 +1,19 @@
 /**
 @module preloader dapps
 */
-const ipc = require('electron').ipcRenderer;
+require('./consoleLogCapture')('dapps');
+const electron = require('electron');
+const ipc = electron.ipcRenderer;
+const shell = electron.shell;
 const mist = require('../mistAPI.js');
-const shell = require('shell');
 const BigNumber = require('bignumber.js');
 const ipcProviderWrapper = require('../ipc/ipcProviderWrapper.js');
 var Web3 = require('web3');
-const basePath = require('../setBasePath.js');
 require('../getFavicon.js');
 require('../getMetaTags.js');
 require('../openExternal.js');
 
-basePath('interface');
+require('./setBasePath')('interface');
 
 // notifiy the tab to store the webview id
 ipc.sendToHost('setWebviewId');

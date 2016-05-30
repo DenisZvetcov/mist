@@ -10,7 +10,7 @@ To save us time getting you all up and running, better wait for now. Thanks :)
 
 The Mist browser is the tool of choice to browse and use Ðapps.
 
-For the mist API see the [MISTAPI.md](MISTAPI.md).
+For the Mist API see the [MISTAPI.md](MISTAPI.md).
 
 ## Installation
 
@@ -20,7 +20,7 @@ you can simply run the executeable after download.
 For updating simply download the new version and copy it over the old one (keep a backup of the old one if you want to be sure).
 The data folder for Mist is stored in other places:
 
-- Windows `%APPDATA%/Roaming/Mist`
+- Windows `%APPDATA%\Roaming\Mist`
 - MacOSX `~/Library/Application Support/Mist`
 - Linux `~/.config/Mist`
 
@@ -32,12 +32,15 @@ Once a Mist version is released the Meteor frontend part is bundled using `meteo
 
 ### Dependencies
 
-Requires electron version 0.37.2
+Requirements: 
+
+* Electron v1.0.1
+* Node v4.3.0 or above
 
 To run mist in development you need [Node.js NPM](https://nodejs.org) and [Meteor](https://www.meteor.com/install) and electron installed:
 
     $ curl https://install.meteor.com/ | sh
-    $ npm install -g electron-prebuilt@0.37.2
+    $ npm install -g electron-prebuilt@1.0.1
 
 ### Installation
 
@@ -56,8 +59,6 @@ To update Mist in the future, run:
 
 ### Run Mist
 
-Switch the `global.mode` to `"mist"` in the `main.js`.
-
 For development we start the interface with a Meteor server for autoreload etc.
 *Start the interface in a separate terminal window:*
 
@@ -71,8 +72,6 @@ In the original window you can then start Mist with:
 
 ### Run the Wallet
 
-Add `--mode wallet` to the Mist command-line.
-
 Start the wallet app for development, *in a separate terminal window:*
 
     $ cd mist/interface && meteor
@@ -81,17 +80,33 @@ Start the wallet app for development, *in a separate terminal window:*
 
     $ cd my/path/meteor-dapp-wallet/app && meteor --port 3050
 
-In the original window you can then start Mist with:
+In the original window you can then start Mist using wallet mode:
 
     $ cd mist
     $ electron . --mode wallet
 
 
+### Passing options to Geth
+
+You can pass command-line options directly to Geth by placing them after `--` in 
+the command-line invocation:
+
+```bash
+$ electron . --mode mist -- --rpcport 19343 --networkid 2 
+```
+
+
 ### Using Mist with a privatenet
 
-To run a privatenet you need to have `geth` installed separately and run it with the `ipcpath` flag:
+To run a private network you will need to set the `networkdid`, `ipcpath` and 
+`datadir` flags:
 
-    $ geth --networkid 1234 --ipcpath /Users/you/Library/Ethereum/geth.ipc --datadir ...
+```bash
+$ electron . -- --networkid 1234 --ipcpath /Users/you/Library/Ethereum/geth.ipc --datadir ...
+```
+
+You can also run `geth` separately yourself with the same options prior to start 
+Mist normally.
 
 
 ### Deployment
